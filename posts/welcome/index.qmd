@@ -1,6 +1,11 @@
 ---
 title: "Hello!"
 date: "2024-05-11"
-categories: [other]
-draft: true
+categories: [random]
 ---
+
+![](profile.jpeg)
+
+Hello! I'm Suhas, a First Year Master's student at Carnegie Mellon and welcome to my blog! I've always found that writing things down helps me think and further grasp ideas or concepts. As I embark on a summer of Research, I thought this would be a great time to start a blog. I'll mainly be writing about papers or work I encounter as part of my work in building tooling that enables software-level fault-injection for microservices that compile to WebAssembly. 
+
+But who knows, I might write about other stuff as well.

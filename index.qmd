@@ -13,7 +13,7 @@ about:
 
 ---
 
-I'm Suhas, a First Year's Masters student in the Computational Data Science program at Carnegie Mellon University, pursuing the Systems concentration. I completed my Bachelor's Degree in Computer Science from PES University, Bangalore, India.
+I'm Suhas, a First Year Master's student in the Computational Data Science program at Carnegie Mellon University, pursuing the Systems concentration. I completed my Bachelor's Degree in Computer Science from PES University, Bangalore, India.
 
 My interests primarily lie in building distributed, scalable, and fault-tolerant applications. I'm currently a Research Assistant in the WebAssembly Research Centre at Carnegie Mellon, where I'm working with Ben Titzer and Elizabeth Gilbert on building tooling to enable service-level fault-injection for microservice applications that compile to WebAssembly. 
 

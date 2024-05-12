@@ -4,7 +4,7 @@
     "href": "blog.html",
     "title": "Blog",
     "section": "",
-    "text": "No matching items"
+    "text": "Hello!\n\n\n\n\n\n\nrandom\n\n\n\n\n\n\n\n\n\nMay 11, 2024\n\n\nSuhas Thalanki\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/post-with-code/index.html",
@@ -18,6 +18,13 @@
     "href": "index.html",
     "title": "About",
     "section": "",
-    "text": "I’m Suhas, a First Year’s Masters student in the Computational Data Science program at Carnegie Mellon University, pursuing the Systems concentration. I completed my Bachelor’s Degree in Computer Science from PES University, Bangalore, India.\nMy interests primarily lie in building distributed, scalable, and fault-tolerant applications. I’m currently a Research Assistant in the WebAssembly Research Centre at Carnegie Mellon, where I’m working with Ben Titzer and Elizabeth Gilbert on building tooling to enable service-level fault-injection for microservice applications that compile to WebAssembly.\nI’m also working with Prof. Greg Ganger and Sara McAllister on creating a Declarative I/O Interface that enables the co-ordination and scheduling of time- and order-flexible background tasks such as Scrubbing and Rebalancing, to reduce aggregate disk I/O. We’re implementing this in the Hadoop Distributed File System (HDFS).\nLast Spring I interned in the infrastructure team at JP Morgan Chase & Co, where I worked on modernising an internal tool from Cassandra DB to AWS S3. My work resulted in a 2x performance boost while taking up 50% of the storage space when compared to the Cassandra DB implementation.\nI was also a Teaching Assistant in the Big Data (UE20CS322) course at PES University, where I was responsible for building a new fault-tolerant, distributed, and scalable auto-evaluation portal called Big Host. We brought down average submission wait times from a few hours to a mere 6 minutes! We were among the top 3 teams at the IEEE International Scalable Computing Challenge (SCALE 2023) during the 23rd IEEE International Symposium on Cluster, Cloud, and Internet Computing."
+    "text": "I’m Suhas, a First Year Master’s student in the Computational Data Science program at Carnegie Mellon University, pursuing the Systems concentration. I completed my Bachelor’s Degree in Computer Science from PES University, Bangalore, India.\nMy interests primarily lie in building distributed, scalable, and fault-tolerant applications. I’m currently a Research Assistant in the WebAssembly Research Centre at Carnegie Mellon, where I’m working with Ben Titzer and Elizabeth Gilbert on building tooling to enable service-level fault-injection for microservice applications that compile to WebAssembly.\nI’m also working with Prof. Greg Ganger and Sara McAllister on creating a Declarative I/O Interface that enables the co-ordination and scheduling of time- and order-flexible background tasks such as Scrubbing and Rebalancing, to reduce aggregate disk I/O. We’re implementing this in the Hadoop Distributed File System (HDFS).\nLast Spring I interned in the infrastructure team at JP Morgan Chase & Co, where I worked on modernising an internal tool from Cassandra DB to AWS S3. My work resulted in a 2x performance boost while taking up 50% of the storage space when compared to the Cassandra DB implementation.\nI was also a Teaching Assistant in the Big Data (UE20CS322) course at PES University, where I was responsible for building a new fault-tolerant, distributed, and scalable auto-evaluation portal called Big Host. We brought down average submission wait times from a few hours to a mere 6 minutes! We were among the top 3 teams at the IEEE International Scalable Computing Challenge (SCALE 2023) during the 23rd IEEE International Symposium on Cluster, Cloud, and Internet Computing."
+  },
+  {
+    "objectID": "posts/welcome/index.html",
+    "href": "posts/welcome/index.html",
+    "title": "Hello!",
+    "section": "",
+    "text": "Hello! I’m Suhas, a First Year Master’s student at Carnegie Mellon and welcome to my blog! I’ve always found that writing things down helps me think and further grasp ideas or concepts. As I embark on a summer of Research, I thought this would be a great time to start a blog. I’ll mainly be writing about papers or work I encounter as part of my work in building tooling that enables software-level fault-injection for microservices that compile to WebAssembly.\nBut who knows, I might write about other stuff as well."
   }
 ]
