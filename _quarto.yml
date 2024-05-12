@@ -4,7 +4,9 @@ project:
 
 website:
   title: "Suhas Thalanki"
+  search: false
   navbar:
+    background: dark
     right:
       - blog.qmd
       - text: Resume
@@ -15,7 +17,7 @@ website:
         href: https://www.linkedin.com/in/suhas-thalanki/
 format:
   html:
-    theme: cosmo
+    theme: darkly
     css: styles.css
 
 
