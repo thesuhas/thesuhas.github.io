@@ -1,0 +1,24 @@
+---
+title: "About"
+image: profile.jpeg
+about:
+  template: broadside
+  links:
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/suhas-thalanki/
+    - icon: github
+      text: Github
+      href: https://github.com/thesuhas
+
+---
+
+I'm Suhas, a First Year's Masters student in the Computational Data Science program at Carnegie Mellon University, pursuing the Systems concentration. I completed my Bachelor's Degree in Computer Science from PES University, Bangalore, India.
+
+My interests primarily lie in building distributed, scalable, and fault-tolerant applications. I'm currently a Research Assistant in the WebAssembly Research Centre at Carnegie Mellon, where I'm working with Ben Titzer and Elizabeth Gilbert on building tooling to enable service-level fault-injection for microservice applications that compile to WebAssembly. 
+
+I'm also working with Prof. Greg Ganger and Sara McAllister on creating a Declarative I/O Interface that enables the co-ordination and scheduling of time- and order-flexible background tasks such as Scrubbing and Rebalancing, to reduce aggregate disk I/O. We're implementing this in the Hadoop Distributed File System (HDFS).
+
+Last Spring I interned in the infrastructure team at JP Morgan Chase & Co, where I worked on modernising an internal tool from Cassandra DB to AWS S3. My work resulted in a 2x performance boost while taking up 50% of the storage space when compared to the Cassandra DB implementation.
+
+I was also a Teaching Assistant in the Big Data (UE20CS322) course at PES University, where I was responsible for building a new fault-tolerant, distributed, and scalable auto-evaluation portal called [Big Host](https://ieeexplore.ieee.org/abstract/document/10181229?casa_token=VpY2WnTOcvoAAAAA:G_iHimpAJQ4Vob51z7nuhDe2QnDItKkNIL1ItVI3Dvh7mJz3C4rVCiZoIZ1qyQuNem1r_hTJ6). We brought down average submission wait times from a few hours to a mere 6 minutes! We were among the top 3 teams at the IEEE International Scalable Computing Challenge (SCALE 2023) during the 23rd IEEE International Symposium on Cluster, Cloud, and Internet Computing.
