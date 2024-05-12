@@ -6,3 +6,5 @@ freeze: false
 
 # Enable banner style title blocks
 title-block-banner: true
+
+author: "Suhas Thalanki"
