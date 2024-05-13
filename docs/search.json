@@ -4,21 +4,7 @@
     "href": "blog.html",
     "title": "Blog",
     "section": "",
-    "text": "Hello!\n\n\n\n\n\n\nrandom\n\n\n\n\n\n\n\n\n\nMay 11, 2024\n\n\nSuhas Thalanki\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "posts/post-with-code/index.html",
-    "href": "posts/post-with-code/index.html",
-    "title": "Post With Code",
-    "section": "",
-    "text": "This is a post with executable code."
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "About",
-    "section": "",
-    "text": "I’m Suhas, a First Year Master’s student in the Computational Data Science program at Carnegie Mellon University, pursuing the Systems concentration. I completed my Bachelor’s Degree in Computer Science from PES University, Bangalore, India.\nMy interests primarily lie in building distributed, scalable, and fault-tolerant applications. I’m currently a Research Assistant in the WebAssembly Research Centre at Carnegie Mellon, where I’m working with Ben Titzer and Elizabeth Gilbert on building tooling to enable service-level fault-injection for microservice applications that compile to WebAssembly.\nI’m also working with Prof. Greg Ganger and Sara McAllister on creating a Declarative I/O Interface that enables the co-ordination and scheduling of time- and order-flexible background tasks such as Scrubbing and Rebalancing, to reduce aggregate disk I/O. We’re implementing this in the Hadoop Distributed File System (HDFS).\nLast Spring I interned in the infrastructure team at JP Morgan Chase & Co, where I worked on modernising an internal tool from Cassandra DB to AWS S3. My work resulted in a 2x performance boost while taking up 50% of the storage space when compared to the Cassandra DB implementation.\nI was also a Teaching Assistant in the Big Data (UE20CS322) course at PES University, where I was responsible for building a new fault-tolerant, distributed, and scalable auto-evaluation portal called Big Host. We brought down average submission wait times from a few hours to a mere 6 minutes! We were among the top 3 teams at the IEEE International Scalable Computing Challenge (SCALE 2023) during the 23rd IEEE International Symposium on Cluster, Cloud, and Internet Computing."
+    "text": "What is Filibuster?\n\n\n\n\n\n\nfault-injection\n\n\nmicroservices\n\n\n\n\n\n\n\n\n\nMay 13, 2024\n\n\nSuhas Thalanki\n\n\n\n\n\n\n\n\n\n\n\n\nHello!\n\n\n\n\n\n\nrandom\n\n\n\n\n\n\n\n\n\nMay 11, 2024\n\n\nSuhas Thalanki\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/welcome/index.html",
@@ -26,5 +12,40 @@
     "title": "Hello!",
     "section": "",
     "text": "Hello! I’m Suhas, a First Year Master’s student at Carnegie Mellon and welcome to my blog! I’ve always found that writing things down helps me think and further grasp ideas or concepts. As I embark on a summer of Research, I thought this would be a great time to start a blog. I’ll mainly be writing about papers or work I encounter as part of my work in building tooling that enables software-level fault-injection for microservices that compile to WebAssembly.\nBut who knows, I might write about other stuff as well."
+  },
+  {
+    "objectID": "posts/filibuster/index.html",
+    "href": "posts/filibuster/index.html",
+    "title": "What is Filibuster?",
+    "section": "",
+    "text": "Filibuster was created by Chris Meiklejohn as part of his PhD thesis at Carnegie Mellon. It is a framework for software-level fault-injection. This is achieved by instrumenting the remote call sites of every service and enumerating all the possible errors. I will attempt to understand and explain how filibuster works by looking at this documentation."
+  },
+  {
+    "objectID": "posts/filibuster/index.html#filibuster-architecture",
+    "href": "posts/filibuster/index.html#filibuster-architecture",
+    "title": "What is Filibuster?",
+    "section": "Filibuster Architecture",
+    "text": "Filibuster Architecture\nFilibuster runs as a standalone server and is responsible for creating all the functional tests. It does this by enumerating all the possible ways that remote calls between different services can fail. In order to do this, filibuster exposes a HTTP API that instrumented libraries communicate with on every API call.\nWhen running tests and injecting failures, filibuster notifies the applications through its instrumentation, the details of which I will go into detail below."
+  },
+  {
+    "objectID": "posts/filibuster/index.html#what-are-the-steps-involved-in-instrumentation",
+    "href": "posts/filibuster/index.html#what-are-the-steps-involved-in-instrumentation",
+    "title": "What is Filibuster?",
+    "section": "What are the steps involved in Instrumentation?",
+    "text": "What are the steps involved in Instrumentation?\n\nThe service is registered with the filibuster server.\nBefore the remote method is invoked, the instrumented libraries should contact the filibuster server to notify that the request is about to be made.\nIf a fault is not injected, the target service should notify filibuster that the request was received.\nIf a fault is not injected here as well, the target service sends back its response and the original service lets filibuster know what the response was."
+  },
+  {
+    "objectID": "posts/filibuster/index.html#how-is-this-instrumentation-implemented",
+    "href": "posts/filibuster/index.html#how-is-this-instrumentation-implemented",
+    "title": "What is Filibuster?",
+    "section": "How is this instrumentation implemented?",
+    "text": "How is this instrumentation implemented?\nThe python instrumentation was developed by modifying the Popular Flask and Requests library.\n\nFlask Instrumentation\nThe opentelemetry-instrumentation-flask library has been copied and modified. The before_request callback is modified. This is executed on an incoming HTTP request, right before the appropriate handler is invoked. We only execute the instrumented code if the appropriate Filibuster headers are present in the request, indicating it is an instrumented call.\nNow, we need to notify Filibuster of which service the request was terminated at. I believe this means which service the request has been received at. This is done by setting the target_service_name field in the payload. Then we do some metadata updation, and set a flag that indicates the next request is going to filibuster and must not be instrumented. Then, we send a request to filibuster and unset the flag.\n\n\nRequests Instrumentation\nThe opentelemetry-instrumentation-requests library was modified to allow outgoing requests to be instrumented. We check a flag (was referenced in Flask instrumentation) to see if the outgoing call is to filibuster, if not, we instrument. To uniquely identify a request, we compute a MD5 hash based on the traceback. We then update some metadata. Then, we send a request to the filibuster server.\nIf Filibuster replies with saying a fault must be injected, we will also be provided with the exact manner in which to inject the fault and also the associated metadata. If we need to throw an exception, we do not send out a request to the target server and just throw the exception. If we need to return a modified response, we again skip sending a request to the target server and instead just return the modified response.\nNow on response, regardless of if a fault was injected or not, we need to notify the filibuster service. This is done by a modified opentelemetry library."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "About",
+    "section": "",
+    "text": "I’m Suhas, a First Year Master’s student in the Computational Data Science program at Carnegie Mellon University, pursuing the Systems concentration. I completed my Bachelor’s Degree in Computer Science from PES University, Bangalore, India.\nMy interests primarily lie in building distributed, scalable, and fault-tolerant applications. I’m currently a Research Assistant in the WebAssembly Research Centre at Carnegie Mellon, where I’m working with Ben Titzer and Elizabeth Gilbert on building tooling to enable service-level fault-injection for microservice applications that compile to WebAssembly.\nI’m also working with Prof. Greg Ganger and Sara McAllister on creating a Declarative I/O Interface that enables the co-ordination and scheduling of time- and order-flexible background tasks such as Scrubbing and Rebalancing, to reduce aggregate disk I/O. We’re implementing this in the Hadoop Distributed File System (HDFS).\nLast Spring I interned in the infrastructure team at JP Morgan Chase & Co, where I worked on modernising an internal tool from Cassandra DB to AWS S3. My work resulted in a 2x performance boost while taking up 50% of the storage space when compared to the Cassandra DB implementation.\nI was also a Teaching Assistant in the Big Data (UE20CS322) course at PES University, where I was responsible for building a new fault-tolerant, distributed, and scalable auto-evaluation portal called Big Host. We brought down average submission wait times from a few hours to a mere 6 minutes! We were among the top 3 teams at the IEEE International Scalable Computing Challenge (SCALE 2023) during the 23rd IEEE International Symposium on Cluster, Cloud, and Internet Computing."
   }
 ]

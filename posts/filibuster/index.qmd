@@ -1,0 +1,38 @@
+---
+title: "What is Filibuster?"
+date: "2024-05-13"
+categories: [fault-injection, microservices]
+---
+
+[Filibuster](https://www.filibuster.cloud) was created by [Chris Meiklejohn](https://christophermeiklejohn.com) as part of his PhD thesis at Carnegie Mellon. It is a framework for software-level fault-injection. This is achieved by instrumenting the remote call sites of every service and enumerating all the possible errors. I will attempt to understand and explain how filibuster works by looking at [this](https://github.com/filibuster-testing/filibuster-documentation) documentation.
+
+## Filibuster Architecture
+
+Filibuster runs as a standalone server and is responsible for creating all the functional tests. It does this by enumerating all the possible ways that remote calls between different services can fail. In order to do this, filibuster exposes a HTTP API that instrumented libraries communicate with on every API call.
+
+When running tests and injecting failures, filibuster notifies the applications through its instrumentation, the details of which I will go into detail below.
+
+## What are the steps involved in Instrumentation?
+
+1. The service is registered with the filibuster server.
+2. Before the remote method is invoked, the instrumented libraries should contact the filibuster server to notify that the request is about to be made.
+3. If a fault is not injected, the target service should notify filibuster that the request was received.
+4. If a fault is not injected here as well, the target service sends back its response and the original service lets filibuster know what the response was.
+
+## How is this instrumentation implemented?
+
+The python instrumentation was developed by modifying the Popular Flask and Requests library.
+
+### Flask Instrumentation
+
+The `opentelemetry-instrumentation-flask` library has been copied and modified. The `before_request` callback is modified. This is executed on an incoming HTTP request, right before the appropriate handler is invoked. We only execute the instrumented code if the appropriate Filibuster headers are present in the request, indicating it is an instrumented call.
+
+Now, we need to notify Filibuster of which service the request was terminated at. I believe this means which service the request has been received at. This is done by setting the `target_service_name` field in the payload. Then we do some metadata updation, and set a flag that indicates the next request is going to filibuster and must not be instrumented. Then, we send a request to filibuster and unset the flag.
+
+### Requests Instrumentation
+
+The `opentelemetry-instrumentation-requests` library was modified to allow outgoing requests to be instrumented. We check a flag (was referenced in Flask instrumentation) to see if the outgoing call is to filibuster, if not, we instrument. To uniquely identify a request, we compute a MD5 hash based on the [traceback](https://www.coursera.org/tutorials/python-traceback). We then update some metadata. Then, we send a request to the filibuster server.
+
+If Filibuster replies with saying a fault must be injected, we will also be provided with the exact manner in which to inject the fault and also the associated metadata. If we need to throw an exception, we do not send out a request to the target server and just throw the exception. If we need to return a modified response, we again skip sending a request to the target server and instead just return the modified response. 
+
+Now on response, regardless of if a fault was injected or not, we need to notify the filibuster service. This is done by a modified `opentelemetry` library. 
