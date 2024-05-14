@@ -10,6 +10,9 @@ about:
     - icon: github
       text: Github
       href: https://github.com/thesuhas
+    - icon: envelope-at-fill
+      text: E-Mail
+      href: mailto:vthalank@andrew.cmu.edu
 
 ---
 
